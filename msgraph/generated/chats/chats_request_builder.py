@@ -28,7 +28,7 @@ class ChatsRequestBuilder(BaseRequestBuilder):
         param request_adapter: The request adapter to use to execute the requests.
         Returns: None
         """
-        super().__init__(request_adapter, "{+baseurl}/chats{?%24top,%24skip,%24search,%24filter,%24count,%24orderby,%24select,%24expand}", path_parameters)
+        super().__init__(request_adapter, "{+baseurl}/chats{?%24top,%24skip,%24search,%24filter,%24count,%24orderby,%24select,%24expand,%24skiptoken}", path_parameters)
     
     def by_chat_id(self,chat_id: str) -> ChatItemRequestBuilder:
         """
@@ -185,6 +185,8 @@ class ChatsRequestBuilder(BaseRequestBuilder):
                 return "%24skip"
             if original_name == "top":
                 return "%24top"
+            if original_name == "skiptoken":
+                return "%24skiptoken"
             return original_name
         
         # Include count of items
@@ -210,6 +212,9 @@ class ChatsRequestBuilder(BaseRequestBuilder):
 
         # Show only the first n items
         top: Optional[int] = None
+
+        # Pagination
+        skiptoken: Optional[str] = None
 
     
     from kiota_abstractions.base_request_configuration import BaseRequestConfiguration

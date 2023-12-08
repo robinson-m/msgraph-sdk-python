@@ -24,7 +24,7 @@ class GetAllMessagesRequestBuilder(BaseRequestBuilder):
         param request_adapter: The request adapter to use to execute the requests.
         Returns: None
         """
-        super().__init__(request_adapter, "{+baseurl}/chats/getAllMessages(){?model*,%24top,%24skip,%24search,%24filter,%24count,%24select,%24orderby}", path_parameters)
+        super().__init__(request_adapter, "{+baseurl}/chats/getAllMessages(){?model*,%24top,%24skip,%24search,%24filter,%24count,%24select,%24orderby,%24skiptoken}", path_parameters)
     
     async def get(self,request_configuration: Optional[GetAllMessagesRequestBuilderGetRequestConfiguration] = None) -> Optional[GetAllMessagesGetResponse]:
         """
@@ -103,6 +103,8 @@ class GetAllMessagesRequestBuilder(BaseRequestBuilder):
                 return "%24top"
             if original_name == "model":
                 return "model"
+            if original_name == "skiptoken":
+                return "%24skiptoken"
             return original_name
         
         # Include count of items
@@ -128,6 +130,9 @@ class GetAllMessagesRequestBuilder(BaseRequestBuilder):
 
         # Show only the first n items
         top: Optional[int] = None
+
+        # Pagination
+        skiptoken: Optional[str] = None
 
     
     from kiota_abstractions.base_request_configuration import BaseRequestConfiguration

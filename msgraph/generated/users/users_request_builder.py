@@ -31,7 +31,7 @@ class UsersRequestBuilder(BaseRequestBuilder):
         param request_adapter: The request adapter to use to execute the requests.
         Returns: None
         """
-        super().__init__(request_adapter, "{+baseurl}/users{?%24top,%24search,%24filter,%24count,%24orderby,%24select,%24expand}", path_parameters)
+        super().__init__(request_adapter, "{+baseurl}/users{?%24top,%24search,%24filter,%24count,%24orderby,%24select,%24expand,%24skiptoken}", path_parameters)
     
     def by_user_id(self,user_id: str) -> UserItemRequestBuilder:
         """
@@ -213,6 +213,8 @@ class UsersRequestBuilder(BaseRequestBuilder):
                 return "%24select"
             if original_name == "top":
                 return "%24top"
+            if original_name == "skiptoken":
+                return "%24skiptoken"
             return original_name
         
         # Include count of items
@@ -235,6 +237,9 @@ class UsersRequestBuilder(BaseRequestBuilder):
 
         # Show only the first n items
         top: Optional[int] = None
+
+        # Pagination
+        skiptoken: Optional[str] = None
 
     
     from kiota_abstractions.base_request_configuration import BaseRequestConfiguration
